@@ -15,11 +15,11 @@ public class ActivitiesController(AppDbContext context) : BaseApiController
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Activity>> GetActivity(string id)
+    public async Task<ActionResult<Activity>> GetActivityAsync(string id)
     {
-        var activitie = await context.FindAsync<Activity>(id);
-        if(activitie is null) return NotFound();
+        var activity = await context.Activities.FindAsync(id);
+        if(activity is null) return NotFound();
 
-        return Ok(activitie);
+        return Ok(activity);
     }
 }
