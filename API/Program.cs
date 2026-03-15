@@ -1,3 +1,4 @@
+using Application.Activities.Queries;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -20,6 +21,11 @@ builder.Services.AddCors(option =>
               .AllowAnyMethod()
               .WithOrigins("http://localhost:3000", "https://localhost:3000");
     });
+});
+
+builder.Services.AddMediatR(x =>
+{
+    x.RegisterServicesFromAssemblyContaining<GetActivitiesList.Handler>();
 });
 
 var app = builder.Build();
