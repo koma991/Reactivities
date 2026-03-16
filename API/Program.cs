@@ -1,4 +1,6 @@
 using Application.Activities.Queries;
+using Domain;
+using Domain.DTO;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -26,6 +28,11 @@ builder.Services.AddCors(option =>
 builder.Services.AddMediatR(x =>
 {
     x.RegisterServicesFromAssemblyContaining<GetActivitiesList.Handler>();
+});
+
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.CreateMap<EditActivityDTO, Activity>();
 });
 
 var app = builder.Build();

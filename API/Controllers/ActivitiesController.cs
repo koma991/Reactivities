@@ -29,4 +29,10 @@ public class ActivitiesController : BaseApiController
     {
         return Ok(await Mediator.Send(new CreateActivity.Command(){ ActivityDTO = activityDTO }));
     }
+
+    [HttpPut]
+    public async Task<ActionResult<EditActivityDTO>> EditActivityAsync(EditActivityDTO editActivityDTO)
+    {
+        return Ok(await Mediator.Send(new EditActivity.Command() { EditActivityDTO = editActivityDTO }));
+    }
 }
