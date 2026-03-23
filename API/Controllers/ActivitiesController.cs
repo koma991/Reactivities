@@ -35,4 +35,12 @@ public class ActivitiesController : BaseApiController
     {
         return Ok(await Mediator.Send(new EditActivity.Command() { EditActivityDTO = editActivityDTO }));
     }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteActivityAsync(string id)
+    {
+        await Mediator.Send(new DeleteActivity.Command() { Id = id } );
+
+        return Ok();
+    }
 }
