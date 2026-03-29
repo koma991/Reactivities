@@ -3,8 +3,7 @@ import ActivityCard from "./ActivityCard"
 
 type Props={
     activities: Activity[];
-    handleSelectActivity: (id: string) => void;
-
+    handleSelectActivity: (id: string) => void
 }
 
 export default function ActivityList({ activities, handleSelectActivity }: Props) {

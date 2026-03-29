@@ -5,7 +5,7 @@ import ActivityForm from "../form/ActivityForm";
 
 type Props = {
     activities: Activity[];
-    selectedActivity?: Activity;
+    selectedActivity: Activity | undefined;
     handleSelectActivity: (id: string) => void;
     handleCancelSelectActivity: () => void;
     handleOpenForm: (id?: string) => void;
@@ -13,15 +13,15 @@ type Props = {
     editModel: boolean
 }
 
-export default function ActivitiDashboard({ activities, selectedActivity, handleSelectActivity, handleCancelSelectActivity, handleOpenForm, handleCloseForm, editModel }:Props) {
+export default function ActivityDashboard({ activities, selectedActivity, handleSelectActivity, handleCancelSelectActivity, handleOpenForm, handleCloseForm, editModel }:Props) {
   return (
     <Grid2 container spacing={3}>
         <Grid2 size = {7}>
         <ActivityList activities={activities} handleSelectActivity={handleSelectActivity} />
         </Grid2>
         <Grid2 size = {5}>
-        {selectedActivity && !editModel && <ActivityDetitile activity={selectedActivity} handleCancelSelectActivity={handleCancelSelectActivity} handleOpenForm={handleOpenForm}/>}
-        {editModel && <ActivityForm activity={selectedActivity} handleCloseForm = {handleCloseForm} />}
+        {selectedActivity && !editModel && <ActivityDetitile selectActivity={selectedActivity} handleCancelSelectActivity={handleCancelSelectActivity} handleOpenForm={handleOpenForm} />}
+        {editModel && <ActivityForm activity={selectedActivity} handleCloseForm={handleCloseForm} />}
         </Grid2>
     </Grid2>
   )
