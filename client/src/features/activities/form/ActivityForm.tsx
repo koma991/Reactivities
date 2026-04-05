@@ -1,15 +1,14 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { FormEvent } from "react";
 import { useActivities } from "../../../lib/hooks/useActivities";
+import { useNavigate, useParams } from "react-router";
 
-type Props = {
-    activity?: Activity;
-    handleCloseForm: () => void
-}
+export default function ActivityForm() {
 
-export default function ActivityForm({ activity, handleCloseForm }: Props) {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { updateActivity, createActivity, activity, isLoading } = useActivities(id);
 
-  const { updateActivity, createActivity } = useActivities();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     e.preventDefault();
@@ -20,17 +19,19 @@ export default function ActivityForm({ activity, handleCloseForm }: Props) {
       //更新
       data.id = activity.id;
       await updateActivity.mutateAsync(data as unknown as Activity);
+      navigate(`/activity/${activity.id}`);
     }
     else{
       //创建
-      await createActivity.mutateAsync(data as unknown as Activity);
+      createActivity.mutate(data as unknown as Activity, {onSuccess: (id) => navigate(`/activity/${id}`)});
     }
-    handleCloseForm();
   }
+
+  if (isLoading) return <Typography>Loading...</Typography>
 
   return (
     <Paper sx={{borderRadius: '3', padding: 3}}>
-        <Typography variant="h5" gutterBottom color="primary">CREATE ACTIVITY</Typography>
+        <Typography variant="h5" gutterBottom color="primary">{activity ? "Edit ACTIVITY" : "CREATE ACTIVITY"}</Typography>
         <Box onSubmit={handleSubmit} component='form' display='flex' flexDirection='column' gap={3}>
               <TextField name="title" label='Title' defaultValue={activity?.title}/>
               <TextField name="description" label='Description' defaultValue={activity?.description} multiline rows={3} />
@@ -40,7 +41,7 @@ export default function ActivityForm({ activity, handleCloseForm }: Props) {
               <TextField name="city" label='City' defaultValue={activity?.city}/>
               <TextField name="venue" label='Venue' defaultValue={activity?.venue}/>
               <Box display='flex' justifyContent='end' gap={3}>
-                  <Button onClick={handleCloseForm} color='inherit'>Cancel</Button>
+                  <Button onClick={()=>navigate(-1)} color='inherit'>Cancel</Button>
                   <Button type="submit" color='success' variant="contained" disabled={updateActivity.isPending || createActivity.isPending} >Submit</Button>
               </Box>
         </Box>
